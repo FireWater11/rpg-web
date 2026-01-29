@@ -30,4 +30,6 @@ public class Users {
 
     private String password;
 
+    private boolean active;
+
 }
