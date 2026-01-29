@@ -16,6 +16,8 @@ public class ServiceCadastro {
             return ResponseEntity.badRequest().body("Informações obrigatorias.");
         }
 
+        
+
 
     }
     
