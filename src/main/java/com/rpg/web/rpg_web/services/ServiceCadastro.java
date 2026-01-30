@@ -17,7 +17,7 @@ public class ServiceCadastro {
     private UsersRepository user;
     // NÃO PODE ESTAR DENTRO DE UM METODO
 
-    public ResponseEntity<String> register(UserDTO body) {
+    public ResponseEntity<String> cadastro(UserDTO body) {
 
         try {
             if (body.getUsername() == null || body.getUsername().isBlank() || 
@@ -33,9 +33,9 @@ public class ServiceCadastro {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Email já cadastrado.");
             }
 
-            if (Integer.parseInt(body.getPassword()) < 8) {
+            if (body.getPassword().length() < 8) {
                 return ResponseEntity.status(
-                    HttpStatus.LENGTH_REQUIRED).body("Senha deve no mínimo 8 caracteres");
+                    HttpStatus.BAD_REQUEST).body("Senha deve no mínimo 8 caracteres");
             }
 
             UsersDomain novoUsuario = new UsersDomain(
