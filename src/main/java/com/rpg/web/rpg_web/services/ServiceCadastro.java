@@ -7,7 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rpg.web.rpg_web.infra.domain.UsersDomain;
-import com.rpg.web.rpg_web.infra.dto.UserDTO;
+import com.rpg.web.rpg_web.infra.dto.UserRequestDTO;
+import com.rpg.web.rpg_web.infra.dto.UserResponseDTO;
 import com.rpg.web.rpg_web.infra.repository.UsersRepository;
 
 @Service
@@ -23,7 +24,7 @@ public class ServiceCadastro {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-    public ResponseEntity<String> register(UserDTO body) {
+    public ResponseEntity<?> register(UserRequestDTO body) {
 
         try {
             if (body.getUsername() == null || body.getUsername().isBlank() || 
@@ -41,7 +42,7 @@ public class ServiceCadastro {
 
             if (body.getPassword().length() < 8) {
                 return ResponseEntity.status(
-                    HttpStatus.BAD_REQUEST).body("Senha deve no mínimo 8 caracteres");
+                    HttpStatus.BAD_REQUEST).body("Senha deve tamanho mínimo de 8 caracteres");
             }
 
             String passwordHash = encoder.encode(body.getPassword());
@@ -50,15 +51,22 @@ public class ServiceCadastro {
                 null,
                 body.getUsername(),
                 body.getEmail(),
-                body.getPassword(),
+                passwordHash,
                 true
             );
 
-            // repository.save(novoUsuario);
+            UsersDomain saveUser = repository.save(novoUsuario);
 
-            // fazer a persistencia
-            // retornar para o FE que o usuario foi criado
-            // Criptografar a senha
+            UserResponseDTO response = new UserResponseDTO(
+                saveUser.getId(),
+                saveUser.getUsername(),
+                saveUser.getEmail()
+            );
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+            // retornar se está ativo
+            // retornar sempre JSON
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro interno do servidor: " +e);
