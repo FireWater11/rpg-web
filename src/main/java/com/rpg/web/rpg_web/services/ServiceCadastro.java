@@ -3,6 +3,7 @@ package com.rpg.web.rpg_web.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rpg.web.rpg_web.infra.domain.UsersDomain;
@@ -13,11 +14,16 @@ import com.rpg.web.rpg_web.infra.repository.UsersRepository;
 
 public class ServiceCadastro {
 
+    
+
     @Autowired
     private UsersRepository repository;
     // NÃO PODE ESTAR DENTRO DE UM METODO
 
-    public ResponseEntity<String> cadastro(UserDTO body) {
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
+    public ResponseEntity<String> register(UserDTO body) {
 
         try {
             if (body.getUsername() == null || body.getUsername().isBlank() || 
@@ -37,6 +43,8 @@ public class ServiceCadastro {
                 return ResponseEntity.status(
                     HttpStatus.BAD_REQUEST).body("Senha deve no mínimo 8 caracteres");
             }
+
+            String passwordHash = encoder.encode(body.getPassword());
 
             UsersDomain novoUsuario = new UsersDomain(
                 null,

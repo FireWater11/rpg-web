@@ -10,7 +10,7 @@ import com.rpg.web.rpg_web.infra.dto.UserDTO;
 import com.rpg.web.rpg_web.services.ServiceCadastro;
 
 @RestController
-@RequestMapping("/cadastro")
+@RequestMapping("/register")
 public class ControllerCadastro {
 
     private ServiceCadastro service;
@@ -19,8 +19,8 @@ public class ControllerCadastro {
         this.service = service;
     }
 
-    public void/*List<Users>*/ cadastro(@RequestBody UserDTO body) {
-        service.cadastro(body);
+    public void/*List<Users>*/ register(@RequestBody UserDTO body) {
+        service.register(body);
     }
 
 
