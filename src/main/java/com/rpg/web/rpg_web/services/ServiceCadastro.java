@@ -46,6 +46,8 @@ public class ServiceCadastro {
                 true
             );
 
+            user.save(novoUsuario);
+
             // fazer a persistencia
             // retornar para o FE que o usuario foi criado
             // Criptografar a senha
