@@ -6,12 +6,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// import com.rpg.web.rpg_web.infra.domain.Users;
 import com.rpg.web.rpg_web.infra.dto.UserDTO;
 import com.rpg.web.rpg_web.services.ServiceCadastro;
 
 @RestController
-@RequestMapping("/register")
+@RequestMapping("/cadastro")
 public class ControllerCadastro {
 
     private ServiceCadastro service;
@@ -20,8 +19,8 @@ public class ControllerCadastro {
         this.service = service;
     }
 
-    public void/*List<Users>*/ register(@RequestBody UserDTO body) {
-        service.register(body);
+    public void/*List<Users>*/ cadastro(@RequestBody UserDTO body) {
+        service.cadastro(body);
     }
 
 

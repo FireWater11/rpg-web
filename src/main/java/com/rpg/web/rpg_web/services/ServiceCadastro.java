@@ -14,7 +14,7 @@ import com.rpg.web.rpg_web.infra.repository.UsersRepository;
 public class ServiceCadastro {
 
     @Autowired
-    private UsersRepository user;
+    private UsersRepository repository;
     // NÃO PODE ESTAR DENTRO DE UM METODO
 
     public ResponseEntity<String> cadastro(UserDTO body) {
@@ -29,7 +29,7 @@ public class ServiceCadastro {
             }
 
             // tipo um SELECT, porém o Spring gerencia tudo sozinho
-            if (user.existsByEmail(body.getEmail())) {
+            if (repository.existsByEmail(body.getEmail())) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Email já cadastrado.");
             }
 
@@ -46,7 +46,7 @@ public class ServiceCadastro {
                 true
             );
 
-            user.save(novoUsuario);
+            // repository.save(novoUsuario);
 
             // fazer a persistencia
             // retornar para o FE que o usuario foi criado
