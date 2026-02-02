@@ -30,7 +30,7 @@ public class ServiceCadastro {
             if (body.getUsername() == null || body.getUsername().isBlank() || 
             body.getEmail() == null || body.getEmail().isBlank() || 
             body.getPassword() == null || body.getPassword().isBlank()) {
-                // Para retornar um Status HTTP: ResponseEntity.(nome do status).(se vai retornar algo no body)
+                // Para retornar um Status HTTP: ResponseEntity.status(HttpStatus.nome do status).body(as informações do body)
                 return ResponseEntity.status(
                     HttpStatus.BAD_REQUEST).body("Informações obrigatorias.");
             }
@@ -60,12 +60,11 @@ public class ServiceCadastro {
             UserResponseDTO response = new UserResponseDTO(
                 saveUser.getId(),
                 saveUser.getUsername(),
-                saveUser.getEmail()
+                saveUser.getEmail() 
             );
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
-            // retornar se está ativo
             // retornar sempre JSON
 
         } catch (Exception e) {
